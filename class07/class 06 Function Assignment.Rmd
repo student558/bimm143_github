@@ -1,0 +1,46 @@
+---
+title: "Class 06 Function Assignment"
+author: "Jason (A15796973)"
+date: "2023-10-30"
+output: pdf_document
+---
+
+## R Markdown
+
+
+Function name: BfactorTrend()
+
+Function info: The function will produce a plot of the B factor trend for each protein pdb input. To use it, simply call function using the name or names of the pdb one is interested in. Make sure the files itself are loaded in some way before calling the function, for example: library(bio3d) 
+
+Input: The name or names of any pdb 
+Example: BfactorTrend("name") or BfactorTrend("name1", "name2")
+
+Output: The B factor tend of each protein pdb input
+
+```{r}
+
+BfactorTrend = function(...) { 
+
+  
+## Using `for()` to allow for the user to  create as many plots as they want at
+## once instead of having to create them one at a time  
+  
+  for(i in list(...))
+ { 
+    protein = trim.pdb(read.pdb(i), chain="A", elety="CA")
+
+    plotb3(protein$atom$b, sse=protein, typ="l", ylab="Bfactor")
+  
+  }
+}
+
+```
+
+
+Example
+
+```{r}
+library(bio3d)
+BfactorTrend("1AKE", "4AKE", "1E4Y" )
+```
+

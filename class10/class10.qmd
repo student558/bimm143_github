@@ -1,0 +1,99 @@
+---
+title: "Structural Bioinformatics part 1"
+author: "Jason (A15796973)"
+format: html
+---
+
+```{r}
+stats = read.csv("Data Export Summary.csv", row.names=1)
+stats
+```
+```{r}
+rn.comma = function(x){
+  
+  as.numeric(gsub(",", "", x) )
+}
+```
+
+
+```{r}
+
+pdbstats = apply(stats, 2, rn.comma)
+pdbstats
+
+```
+
+
+
+Q1: What percentage of structures in the PDB are solved by X-Ray and Electron Microscopy.
+
+```{r}
+xray = sum(pdbstats[,1])
+em = sum(pdbstats[,2])
+total = sum(pdbstats[,7])
+
+(xray + em) / total
+```
+
+
+Q2: What proportion of structures in the PDB are protein?
+
+
+```{r}
+proteins = sum(pdbstats[1, 7])
+proteins / total
+```
+
+
+Q3: Type HIV in the PDB website search box on the home page and determine how many HIV-1 protease structures are in the current PDB?
+
+SKIPPED!
+
+```{r}
+library(readr)
+```
+
+
+
+Q4: Water molecules normally have 3 atoms. Why do we see just one atom per water molecule in this structure?
+
+Hydrogen is too small for the current resolution, so only the oxygen is shown.
+
+
+Q5: There is a critical “conserved” water molecule in the binding site. Can you identify this water molecule? What residue number does this water molecule have
+
+HOH 308
+
+Q6: Generate and save a figure clearly showing the two distinct chains of HIV-protease along with the ligand. You might also consider showing the catalytic residues ASP 25 in each chain and the critical water (we recommend “Ball & Stick” for these side-chains). Add this figure to your Quarto document.
+
+Here is the figure
+
+![](1HSG.png)
+
+## The bio3d package for structural bioinformatics
+
+```{r}
+library(bio3d)
+pdb = read.pdb("1hsg")
+pdb
+```
+
+```{r}
+head(pdb$atom)
+```
+
+# Predicting functional motions of a single structure
+
+Let's finish today with a bioinformatics calculation to predict the functional motinos of a PDB structure
+
+```{r}
+adk = read.pdb("6s36")
+m = nma(adk)
+```
+
+
+```{r}
+plot(m)
+mktrj(m, file="adk_m7.pdb")
+```
+
