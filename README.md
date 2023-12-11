@@ -1,7 +1,3 @@
-theme: jekyll-theme-minimal
-logo: https://bioboot.github.io/bimm143_F18/assets/img/logo.png
-title: Bioinformatics Class
-
 # bimm143_github
 My classwork for F23
 This repo is for my UCSD bioinformatics class. 
